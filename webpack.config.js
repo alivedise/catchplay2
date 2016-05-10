@@ -19,8 +19,8 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style', 'css')
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('style', 'css!sass')
       }
     ]
   },
