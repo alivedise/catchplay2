@@ -2,27 +2,41 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import BaseClass from 'base_class';
 import MovieStore from 'movie_store';
+import FavoriteStore from 'favorite_store';
 import '../scss/movie_list.scss'
+import '../scss/bootstrap.scss'
 
 export default class MovieList extends BaseClass {
   constructor(props) {
     super(props);
     this.state = {
-      movies: [],
+      movies: MovieStore.getAll(),
+      favorites: FavoriteStore.getAll(),
       filter: ''
+    }
+
+    this.movieHandler = () => {
+      this.setState({
+        movies: MovieStore.getAll()
+      });
+    }
+    this.favoriteHandler = () => {
+      console.log('2222');
+      this.setState({
+        favorites: FavoriteStore.getAll()
+      });
     }
   };
 
   componentDidMount() {
-    this.movieStore = new MovieStore();
-    this.movieStore.on('change', () => {
-      console.log('changed');
-      this.setState({
-        movies: this.movieStore.getAll()
-      });
-    });
-    this.movieStore.start();
-    window.app = this;
+    MovieStore.on('change', this.movieHandler);
+    FavoriteStore.on('change', this.favoriteHandler);
+    window.ml = this;
+  };
+
+  componentWillUnmount() {
+    MovieStore.off('change', this.movieHandler);
+    FavoriteStore.off('change', this.favoriteHandler);
   };
 
   onChange(evt) {
@@ -31,20 +45,45 @@ export default class MovieList extends BaseClass {
     })
   };
 
+  onFavoriteClick(evt) {
+    console.log(evt.target.dataset.id);
+    FavoriteStore.toggle(evt.target.dataset.id);
+  }
+
   render() {
+    console.log('rendering');
     var dom = this.state.movies.map(function(movie) {
       if (!this.state.filter ||
           movie.name.toLowerCase().indexOf(this.state.filter.toLowerCase()) >= 0) {
+        var icon;
+        if (this.state.favorites.indexOf(movie.id) >= 0) {
+          icon = <span
+                  className="glyphicon glyphicon-heart"
+                  aria-hidden="true"
+                  data-id={movie.id}
+                  onClick={(evt) => {this.onFavoriteClick(evt)}}>
+                 </span>
+        } else {
+          icon = <span className="glyphicon glyphicon-heart-empty"
+                  aria-hidden="true"
+                  data-id={movie.id}
+                  onClick={(evt) => {this.onFavoriteClick(evt)}}>
+                 </span>;
+        }
         return <div className="movie-item">
                 <img src={movie.img} />
-                <div className="name">{movie.name}</div>
+                <div>
+                  <div className="name">
+                    {icon}
+                    <a href={"#movie/" + movie.id}>
+                      {movie.name}
+                    </a>
+                  </div>
+                </div>
                </div>
       }
     }, this);
     return <div className="movie-list">
-            <div className="search-bar">
-              <input type="text" onChange={(evt) => this.onChange(evt)} />
-            </div>
             {dom}
            </div>
   }

@@ -4,5 +4,12 @@
     width: 200px;
     height: 250px;
     overflow: hidden;
+    position: relative;
+    .glyphicon {
+      cursor: pointer;
+    }
+    .name {
+      display: inline-block;
+    }
   }
 }

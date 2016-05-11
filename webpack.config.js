@@ -21,6 +21,11 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('style', 'css!sass')
+      },
+      {test: /\.less$/, loader: 'style-loader!css-loader!less-loader'},
+      {
+          test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+          loader: 'file-loader',
       }
     ]
   },

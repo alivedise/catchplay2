@@ -1,16 +1,40 @@
 import MovieData from 'movie_data';
 import BaseEmitter from 'base_emitter';
 
-export default class MovieStore extends BaseEmitter {
+class MovieStore extends BaseEmitter {
   FAKE_DATA_MODE = true;
   _map = [];
 
-  start() {
-    this.fetchAll();
+  getAll() {
+    if (!this._map.length) {
+      this.fetchAll();
+    }
+    return this._map;
   }
 
-  getAll() {
-    return this._map;
+  query(id) {
+    return this._map.find((movie) => {
+      if (id === movie.id) {
+        return true;
+      }
+    })
+  }
+
+  get(id) {
+    // XXX: asynchronous
+    return new Promise((resolve) => {
+      var result;
+      if (this.FAKE_DATA_MODE) {
+        result = MovieData.slice().find(function(movie) {
+          if (movie.id === id) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+      }
+      resolve(result);
+    });
   }
 
   fetchAll() {
@@ -25,3 +49,6 @@ export default class MovieStore extends BaseEmitter {
     });
   }
 }
+
+var movieStore = new MovieStore();
+export default movieStore;

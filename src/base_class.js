@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Service from 'service';
 export default class BaseClass extends React.Component {
   setHierarchy(active) {
     if (active) {
@@ -85,14 +86,26 @@ export default class BaseClass extends React.Component {
     if (this.DEBUG) {
       console.log('[' + this.name + ']' +
         '[' + Service.currentTime() + '] ' +
-          Array.slice(arguments).concat());
+          Array.prototype.slice.call(arguments).concat());
       if (this.TRACE) {
         console.trace();
       }
     } else if (window.DUMP) {
       DUMP('[' + this.name + ']' +
         '[' + Service.currentTime() + '] ' +
-          Array.slice(arguments).concat());
+          Array.prototype.slice.call(arguments).concat());
     }
+  };
+
+  getHandlerByHash(hash) {
+    hash = hash || window.location.hash;
+    var path = hash.substr(1);
+    var parts = path.split('/');
+    var handler = parts[0];
+    if (handler === 'forward' || handler === 'send_to' ||
+        handler === 'activity-new' || handler === 'activity-share') {
+      return 'compose';
+    }
+    return handler;
   };
 }
