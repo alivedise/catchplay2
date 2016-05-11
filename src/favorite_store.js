@@ -40,6 +40,12 @@ class FavoriteStore extends BaseEmitter {
     this.emit('change');
   }
 
+  updateAll(list) {
+    this.list = list;
+    window.localStorage.setItem('cfavlist', JSON.stringify(this.list));
+    this.emit('change');
+  }
+
   get(id) {
     // XXX: asynchronous
     return new Promise((resolve) => {

@@ -4,10 +4,18 @@ import BaseClass from 'base_class';
 import FavoriteStore from 'favorite_store';
 import MovieStore from 'movie_store';
 import Service from 'service';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragSource, DropTarget } from 'react-dnd';
+import MovieItem from 'movie_item';
+import update from 'react/lib/update';
 
 export default class FavoriteView extends BaseClass {
   constructor(props) {
     super(props);
+
+    this.moveItem = this.moveItem.bind(this);
+    this.endDrag = this.endDrag.bind(this);
     this.state = {
       list: FavoriteStore.getAll(),
       movies: MovieStore.getAll()
@@ -38,31 +46,49 @@ export default class FavoriteView extends BaseClass {
     MovieStore.off('change', this.movieHandler);
   };
 
-  onRemoveClick(evt) {
-    FavoriteStore.remove(evt.target.dataset.id);
+
+  moveItem(id, afterId) {
+    const { list } = this.state;
+
+    const item = list.filter(i => i === id)[0];
+    const afterItem = list.filter(i => i === afterId)[0];
+    const itemIndex = list.indexOf(item);
+    const afterIndex = list.indexOf(afterItem);
+
+    this.setState(update(this.state, {
+      list: {
+        $splice: [
+          [itemIndex, 1],
+          [afterIndex, 0, item]
+        ]
+      }
+    }));
+  }
+
+  endDrag() {
+    console.log('end');
+    this.commit();
+  }
+
+  commit() {
+    FavoriteStore.updateAll(this.state.list);
+  }
+
+  componentDidUpdate() {
+    console.log('updated');
   }
 
   render() {
-    console.log(this.state);
     var dom = this.state.list.map(function(mid) {
       var movie = MovieStore.query(mid);
       if (movie) {
-        var icon = <span className="glyphicon glyphicon-remove"
-                  aria-hidden="true"
-                  data-id={movie.id}
-                  onClick={(evt) => {this.onRemoveClick(evt)}}>
-                 </span>;
-        return <div className="movie-item">
-                <img src={movie.img} />
-                <div>
-                  <div className="name">
-                    {icon}
-                    <a href={"#movie/" + movie.id}>
-                      {movie.name}
-                    </a>
-                  </div>
-                </div>
-               </div>
+        return <MovieItem key={mid}
+                id={mid}
+                name={movie.name}
+                img={movie.img}
+                moveItem={this.moveItem}
+                endDrag={this.endDrag}
+               />
       } else {
         return '';
       }
@@ -77,3 +103,5 @@ export default class FavoriteView extends BaseClass {
            </div>
   }
 };
+
+export default DragDropContext(HTML5Backend)(FavoriteView);
