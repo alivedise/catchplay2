@@ -19,7 +19,6 @@ export default class MovieView extends BaseClass {
 
   componentDidMount() {
     MovieStore.get(this.props.id).then((result) => {
-      console.log(result);
       this.setState(result);
     });
   };

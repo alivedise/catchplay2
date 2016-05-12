@@ -1,7 +1,6 @@
 .movie-list .movie-item {
   display: inline-block;
   width: 200px;
-  height: 250px;
   overflow: hidden;
   position: relative; }
   .movie-list .movie-item .glyphicon {
@@ -6768,4 +6767,13 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+.row-centered {
+  text-align: center; }
 
+.col-centered {
+  display: inline-block;
+  float: none;
+  /* reset the text-align */
+  text-align: left;
+  /* inline-block space fix */
+  margin-right: -4px; }

@@ -112,29 +112,36 @@ export default class App extends BaseClass {
     router.load('search/' + evt.target.value);
   };
   render() {
-    this.debug('rendering');
-    console.log(this.state.page);
-    // React prevents us to add ref when not calling render(),
-    // so we need to clone and add the ref here.
-    // var refPages = this.state.pages.map(function(page) {
-    //  return <XWindow key={page.key + '-window'} ref={page.key} url={page.key}>{page}</XWindow>
-    // }, this);
+    this.debug('will render');
     var refPages;
     if (this.state.page) {
       refPages = <XWindow key={this.state.page.key + '-window-' + i} ref={this.state.page.key} url={this.state.page.key}>{this.state.page}</XWindow>
       i++;
     }
-    this.debug('before rendering...');
+    this.debug('right before rendering...');
     var fakekey = '';
     return (
         <div className={"x-window-container " + (this.slowAnimation ? 'slow-animation' : '')} ref="element">
-          <div>
-            <a href="#all">All</a>
-            <a href="#favorite">Favorite</a>
-            <div className="search-bar">
-              <input type="text" onChange={(evt) => this.onChange(evt)} />
+          <nav className="navbar navbar-default">
+            <div className="container-fluid">
+              <div className="navbar-header">
+                <a className="navbar-brand" href="#">AlivePlay</a>
+              </div>
+
+              <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul className="nav navbar-nav">
+                  <li className={this.getHandlerByHash() === 'all' ? 'active' : ''}><a href="#all">All <span className="sr-only">(current)</span></a></li>
+                  <li className={this.getHandlerByHash() === 'favorite' ? 'active' : ''}><a href="#favorite">My movie list</a></li>
+                </ul>
+                <form className="navbar-form navbar-left" role="search">
+                  <div className="form-group">
+                    <input type="text" className="form-control" placeholder="Search" type="text" onChange={(evt) => this.onChange(evt)} />
+                  </div>
+                </form>
+              </div>
             </div>
-          </div>
+          </nav>
+
           {refPages}
         </div>
     );

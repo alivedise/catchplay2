@@ -62,9 +62,11 @@ export default class SearchView extends BaseClass {
     if (!this.state.list.length) {
       empty = <div>No result</div>
     }
-    return <div className="movie-list">
-            {dom}
-            {empty}
+    return <div className="movie-list container">
+            <div className="row row-centered">
+              {dom}
+              {empty}
+            </div>
            </div>
   }
 };

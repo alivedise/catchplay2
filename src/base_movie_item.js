@@ -23,7 +23,7 @@ export default class BaseMovieItem extends BaseClass {
               onClick={(evt) => {this.onFavoriteClick(evt)}}>
              </span>;
     }
-    return <div className="movie-item">
+    return <div className="movie-item col-xs-2 col-centered">
             <img src={this.props.img} />
             <div>
               <div className="name">

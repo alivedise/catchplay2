@@ -55,8 +55,10 @@ export default class MovieList extends BaseClass {
               favorite={this.state.favorites.indexOf(movie.id) >= 0}
              />
     }, this);
-    return <div className="movie-list">
-            {dom}
+    return <div className="movie-list container">
+            <div className="row row-centered">
+              {dom}
+            </div>
            </div>
   }
 }
