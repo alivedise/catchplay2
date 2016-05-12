@@ -37,6 +37,30 @@ class MovieStore extends BaseEmitter {
     });
   }
 
+  search(keyword) {
+    return new Promise((resolve) => {
+      var result;
+      if (this.FAKE_DATA_MODE) {
+        result = MovieData.filter(function(movie) {
+          console.log(movie);
+          if (movie.name.toLowerCase().indexOf(keyword.toLowerCase()) >= 0) {
+            return true;
+          } else if (movie.outline.toLowerCase().indexOf(keyword.toLowerCase()) >= 0) {
+            return true;
+          } else if (movie.director.toLowerCase().indexOf(keyword.toLowerCase()) >= 0) {
+            return true;
+          } else if (movie.actors.some((a) => {return (a.toLowerCase().indexOf(keyword.toLowerCase()) >= 0)})) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+      }
+      console.log(result);
+      resolve(result || []);
+    });
+  }
+
   fetchAll() {
     return new Promise((resolve) => {
       if (this.FAKE_DATA_MODE) {

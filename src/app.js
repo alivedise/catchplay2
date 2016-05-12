@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import MovieList from 'movie_list';
 import MovieView from 'movie_view';
 import FavoriteView from 'favorite_view';
+import SearchView from 'search_view';
 import BaseClass from 'base_class';
 import XWindow from 'x_window';
 import router from 'router';
 import Service from 'service';
+
+var i = 0;
 
 export default class App extends BaseClass {
   DEBUG = true;
@@ -27,6 +30,10 @@ export default class App extends BaseClass {
     router.addRoute('movie/:id', function(id) {
       this.debug('movie');
       this.openXWindow(<MovieView key="movie" id={id} />);
+    }.bind(this));
+    router.addRoute('search/:keyword', function(keyword) {
+      this.debug('search');
+      this.openXWindow(<SearchView key="search" keyword={keyword} />);
     }.bind(this));
     router.start();
 
@@ -101,11 +108,12 @@ export default class App extends BaseClass {
       page: page
     });
   };
-  onChange() {
-
+  onChange(evt) {
+    router.load('search/' + evt.target.value);
   };
   render() {
-    this.debug('rendering', this.state.pages);
+    this.debug('rendering');
+    console.log(this.state.page);
     // React prevents us to add ref when not calling render(),
     // so we need to clone and add the ref here.
     // var refPages = this.state.pages.map(function(page) {
@@ -113,7 +121,8 @@ export default class App extends BaseClass {
     // }, this);
     var refPages;
     if (this.state.page) {
-      refPages = <XWindow key={this.state.page.key + '-window'} ref={this.state.page.key} url={this.state.page.key}>{this.state.page}</XWindow>
+      refPages = <XWindow key={this.state.page.key + '-window-' + i} ref={this.state.page.key} url={this.state.page.key}>{this.state.page}</XWindow>
+      i++;
     }
     this.debug('before rendering...');
     var fakekey = '';

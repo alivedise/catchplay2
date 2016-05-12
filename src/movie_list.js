@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import BaseClass from 'base_class';
 import MovieStore from 'movie_store';
 import FavoriteStore from 'favorite_store';
+import BaseMovieItem from 'base_movie_item';
 import '../scss/movie_list.scss'
 import '../scss/bootstrap.scss'
 
@@ -11,8 +12,7 @@ export default class MovieList extends BaseClass {
     super(props);
     this.state = {
       movies: MovieStore.getAll(),
-      favorites: FavoriteStore.getAll(),
-      filter: ''
+      favorites: FavoriteStore.getAll()
     }
 
     this.movieHandler = () => {
@@ -45,43 +45,15 @@ export default class MovieList extends BaseClass {
     })
   };
 
-  onFavoriteClick(evt) {
-    console.log(evt.target.dataset.id);
-    FavoriteStore.toggle(evt.target.dataset.id);
-  }
-
   render() {
     console.log('rendering');
     var dom = this.state.movies.map(function(movie) {
-      if (!this.state.filter ||
-          movie.name.toLowerCase().indexOf(this.state.filter.toLowerCase()) >= 0) {
-        var icon;
-        if (this.state.favorites.indexOf(movie.id) >= 0) {
-          icon = <span
-                  className="glyphicon glyphicon-heart"
-                  aria-hidden="true"
-                  data-id={movie.id}
-                  onClick={(evt) => {this.onFavoriteClick(evt)}}>
-                 </span>
-        } else {
-          icon = <span className="glyphicon glyphicon-heart-empty"
-                  aria-hidden="true"
-                  data-id={movie.id}
-                  onClick={(evt) => {this.onFavoriteClick(evt)}}>
-                 </span>;
-        }
-        return <div className="movie-item">
-                <img src={movie.img} />
-                <div>
-                  <div className="name">
-                    {icon}
-                    <a href={"#movie/" + movie.id}>
-                      {movie.name}
-                    </a>
-                  </div>
-                </div>
-               </div>
-      }
+      return <BaseMovieItem
+              name={movie.name}
+              id={movie.id}
+              img={movie.img}
+              favorite={this.state.favorites.indexOf(movie.id) >= 0}
+             />
     }, this);
     return <div className="movie-list">
             {dom}
