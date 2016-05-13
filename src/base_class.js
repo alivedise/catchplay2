@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Service from 'service';
+import Service from './service';
 export default class BaseClass extends React.Component {
   setHierarchy(active) {
     if (active) {
@@ -36,10 +36,8 @@ export default class BaseClass extends React.Component {
 
   respondToHierarchyEvent(e) {
     if (this.isActive()) {
-      console.log(e.type, 'stoping');
       return false;
     }
-    console.log(e.type, 'passing');
     return true;
   };
 

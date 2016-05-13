@@ -1,5 +1,5 @@
-import MovieData from 'movie_data';
-import BaseEmitter from 'base_emitter';
+import MovieData from './movie_data';
+import BaseEmitter from './base_emitter';
 
 class MovieStore extends BaseEmitter {
   FAKE_DATA_MODE = true;
@@ -56,7 +56,6 @@ class MovieStore extends BaseEmitter {
           }
         });
       }
-      console.log(result);
       resolve(result || []);
     });
   }

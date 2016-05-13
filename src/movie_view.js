@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BaseClass from 'base_class';
-import MovieStore from 'movie_store';
-import Service from 'service';
+import BaseClass from './base_class';
+import MovieStore from './movie_store';
+import Service from './service';
 
 export default class MovieView extends BaseClass {
   constructor(props) {

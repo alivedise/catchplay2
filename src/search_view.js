@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BaseClass from 'base_class';
-import FavoriteStore from 'favorite_store';
-import MovieStore from 'movie_store';
-import Service from 'service';
-import BaseMovieItem from 'base_movie_item';
+import BaseClass from './base_class';
+import FavoriteStore from './favorite_store';
+import MovieStore from './movie_store';
+import Service from './service';
+import BaseMovieItem from './base_movie_item';
 
 export default class SearchView extends BaseClass {
   DEBUG = true
@@ -16,23 +16,17 @@ export default class SearchView extends BaseClass {
       favorites: FavoriteStore.getAll()
     }
     this.favoriteHandler = () => {
-      console.log('14444');
       this.setState({
         favorites: FavoriteStore.getAll()
       })
     }
   };
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-  }
-
   componentDidMount() {
     MovieStore.search(this.props.keyword).then((result) => {
       if (!ReactDOM.findDOMNode(this)) {
         return;
       }
-      console.log(result);
       this.setState({
         list: result
       })
@@ -44,10 +38,6 @@ export default class SearchView extends BaseClass {
   componentWillUnmount() {
     FavoriteStore.off('change', this.favoriteHandler);
   };
-
-  componentDidUpdate() {
-    console.log('updated');
-  }
 
   render() {
     var dom = this.state.list.map(function(movie) {

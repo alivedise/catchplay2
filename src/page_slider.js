@@ -47,7 +47,6 @@ var PageSlider = {
 
     var currentHandler = this.state.history[this.state.lastIndex];
     var handler = this.getHandlerByHash();
-    console.log(currentHandler, handler);
     var isForward = this.isForward(currentHandler, handler);
     if (this.state.pages.length > 1) {
       openingTransition = isForward ? 'right-to-center' : 'left-to-center';

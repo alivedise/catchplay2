@@ -200,7 +200,6 @@ export default class TransitionController {
   };
 
   handle_opened() {
-    console.log('handling opened');
     if (!this.app || !this.element) {
       return;
     }

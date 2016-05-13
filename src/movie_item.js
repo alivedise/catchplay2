@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BaseClass from 'base_class';
+import BaseClass from './base_class';
 import { DragSource, DropTarget } from 'react-dnd';
-import FavoriteStore from 'favorite_store';
+import FavoriteStore from './favorite_store';
 
 const type='item';
 

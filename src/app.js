@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MovieList from 'movie_list';
-import MovieView from 'movie_view';
-import FavoriteView from 'favorite_view';
-import SearchView from 'search_view';
-import BaseClass from 'base_class';
-import XWindow from 'x_window';
-import router from 'router';
-import Service from 'service';
+import MovieList from './movie_list';
+import MovieView from './movie_view';
+import FavoriteView from './favorite_view';
+import SearchView from './search_view';
+import BaseClass from './base_class';
+import XWindow from './x_window';
+import router from './router';
+import Service from './service';
 
 var i = 0;
 

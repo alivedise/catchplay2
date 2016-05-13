@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BaseClass from 'base_class';
-import FavoriteStore from 'favorite_store';
-import MovieStore from 'movie_store';
-import Service from 'service';
+import BaseClass from './base_class';
+import FavoriteStore from './favorite_store';
+import MovieStore from './movie_store';
+import Service from './service';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragSource, DropTarget } from 'react-dnd';
-import MovieItem from 'movie_item';
+import MovieItem from './movie_item';
 import update from 'react/lib/update';
 
 export default class FavoriteView extends BaseClass {
@@ -26,7 +26,6 @@ export default class FavoriteView extends BaseClass {
       });
     }
     this.favoriteHandler = () => {
-      console.log('1111');
       this.setState({
         list: FavoriteStore.getAll()
       });
@@ -66,16 +65,11 @@ export default class FavoriteView extends BaseClass {
   }
 
   endDrag() {
-    console.log('end');
     this.commit();
   }
 
   commit() {
     FavoriteStore.updateAll(this.state.list);
-  }
-
-  componentDidUpdate() {
-    console.log('updated');
   }
 
   render() {
