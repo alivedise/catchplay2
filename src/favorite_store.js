@@ -1,5 +1,5 @@
-import MovieData from './movie_data';
-import BaseEmitter from './base_emitter';
+import MovieData from 'movie_data';
+import BaseEmitter from 'base_emitter';
 
 class FavoriteStore extends BaseEmitter {
   FAKE_DATA_MODE = true;
@@ -71,6 +71,7 @@ class FavoriteStore extends BaseEmitter {
         list = JSON.parse(list);
       }
       this.list = list || [];
+      console.log(this.id, 'emit');
       this.emit('change');
       resolve(list);
     });

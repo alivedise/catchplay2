@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BaseClass from './base_class';
-import FavoriteStore from './favorite_store';
+import BaseClass from 'base_class';
+import FavoriteStore from 'favorite_store';
 
 export default class BaseMovieItem extends BaseClass {
   onFavoriteClick(evt) {

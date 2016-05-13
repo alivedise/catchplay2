@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BaseClass from './base_class';
-import MovieStore from './movie_store';
-import FavoriteStore from './favorite_store';
-import BaseMovieItem from './base_movie_item';
+import BaseClass from 'base_class';
+import MovieStore from 'movie_store';
+import FavoriteStore from 'favorite_store';
+import BaseMovieItem from 'base_movie_item';
 import '../scss/movie_list.scss'
 import '../scss/bootstrap.scss'
 
@@ -21,6 +21,7 @@ export default class MovieList extends BaseClass {
       });
     }
     this.favoriteHandler = () => {
+      console.log('2222');
       this.setState({
         favorites: FavoriteStore.getAll()
       });
@@ -45,6 +46,7 @@ export default class MovieList extends BaseClass {
   };
 
   render() {
+    console.log('rendering');
     var dom = this.state.movies.map(function(movie) {
       return <BaseMovieItem
               name={movie.name}
